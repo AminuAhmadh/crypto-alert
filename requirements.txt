@@ -1,0 +1,10 @@
+import pandas as pd
+import requests
+import os
+from dotenv import load_dotenv
+import json
+from datetime import datetime
+import yagmail
+import coinmarketcapapi
+from pretty_html_table import build_table
+import vonage
