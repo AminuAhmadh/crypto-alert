@@ -33,4 +33,4 @@ You should put all your credentials (APIs, Secret keys, email and pass) into `.e
 
 The last thing you want to do is to Automate this task (locally or preferrebly on the cloud) so that it runs daily or weekly or any how you want. 
 
-## Happy Coding...
+## To the Moon or away from Moon?
