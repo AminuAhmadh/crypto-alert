@@ -95,7 +95,7 @@ if __name__ == "__main__":
     print('Email Sent')
 
     if bear_market():
-        send_telegram('Seems Like We Are Entering a Bear Market!')
+        send_telegram('Seems Like We Are Entering a Bear Market.\n Buy the Fucking Dip')
         responseData = sms.send_message({
         "from": "Bully",
         "to": SMS_TO,
