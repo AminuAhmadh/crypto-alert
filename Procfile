@@ -1,1 +1,1 @@
-worker: python crypto_alert.py
+web: python crypto_alert.py
