@@ -7,11 +7,9 @@ from dotenv import load_dotenv
 import json
 from datetime import datetime
 import yagmail
-import coinmarketcapapi
 from pretty_html_table import build_table
 import vonage
 from requests.sessions import Session
-from pycoingecko import CoinGeckoAPI
 
 # load environmental variables
 load_dotenv()
@@ -24,9 +22,6 @@ KEY = os.getenv("KEY")
 SECRET = os.getenv("SECRET")
 EMAIL_FROM = os.getenv("EMAIL_FROM")
 SMS_TO = os.getenv("TO_SMS")
-
-# instantiate the CG api
-cg = CoinGeckoAPI()
 
 # setting up client for VONAGE TEXT messages
 client = vonage.Client(key=KEY, secret=SECRET)
