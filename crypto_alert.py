@@ -10,6 +10,8 @@ import yagmail
 import coinmarketcapapi
 from pretty_html_table import build_table
 import vonage
+from requests.sessions import Session
+from pycoingecko import CoinGeckoAPI
 
 # load environmental variables
 load_dotenv()
@@ -23,8 +25,8 @@ SECRET = os.getenv("SECRET")
 EMAIL_FROM = os.getenv("EMAIL_FROM")
 SMS_TO = os.getenv("TO_SMS")
 
-# instantiate the CMC api
-cmc = coinmarketcapapi.CoinMarketCapAPI(API_KEY)
+# instantiate the CG api
+cg = CoinGeckoAPI()
 
 # setting up client for VONAGE TEXT messages
 client = vonage.Client(key=KEY, secret=SECRET)
@@ -81,12 +83,22 @@ def bull_market():
     return (btc_change_24_hr >= 15 or eth_change_24_hr >= 15) or (btc_change_7days >= 20 or eth_change_7days >= 20)
 
 
-btc = cmc.cryptocurrency_quotes_latest(symbol='BTC', convert='USD')
-eth = cmc.cryptocurrency_quotes_latest(symbol='ETH', convert='USD')
-btc_change_7days = btc.data['BTC']['quote']['USD']['percent_change_7d']
-btc_change_24_hr =  btc.data['BTC']['quote']['USD']['percent_change_24h']
-eth_change_7days = eth.data['ETH']['quote']['USD']['percent_change_7d']
-eth_change_24_hr = eth.data['ETH']['quote']['USD']['percent_change_24h']
+headers = {
+  'Accepts': 'application/json',
+  'X-CMC_PRO_API_KEY': API_KEY,
+}
+
+session = Session()
+session.headers.update(headers)
+
+url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=5'
+
+data = json.loads(session.get(url).text)
+
+btc_change_24_hr = data['data'][0]['quote']['USD']['percent_change_24h']
+btc_change_7days = data['data'][0]['quote']['USD']['percent_change_7d']
+eth_change_7days = data['data'][1]['quote']['USD']['percent_change_24h']
+eth_change_24_hr = data['data'][1]['quote']['USD']['percent_change_7d']
 
 if __name__ == "__main__":
 
@@ -97,7 +109,7 @@ if __name__ == "__main__":
     if bear_market():
         send_telegram('Seems Like We Are Entering a Bear Market.\nBuy the Fucking Dip')
         responseData = sms.send_message({
-        "from": "Bully",
+        "from": "NEON",
         "to": SMS_TO,
         "text": "Buy The Fucking Dip!!!",})
 
@@ -110,9 +122,9 @@ if __name__ == "__main__":
     elif bull_market():
         send_telegram('Bull Market Happening baby!!!')
         responseData = sms.send_message({
-        "from": "Bully",
+        "from": "NEON",
         "to": SMS_TO,
-        "text": "Bull Market Baby!!!",})
+        "text": "To The Fucking Moon!!!",})
 
         if responseData["messages"][0]["status"] == "0":
             print("Message sent successfully.")
