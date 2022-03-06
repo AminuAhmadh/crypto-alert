@@ -1,6 +1,12 @@
 # import the required libraries
 from datetime import datetime
-
+from time import time
+import vonage
+import os
+import time
+from utils import get_apes_trend
+from utils import bear_market, bull_market
+from utils import send_emails, send_telegram
 
 KEY = os.getenv("KEY")
 SECRET = os.getenv("SECRET")
@@ -41,3 +47,9 @@ while True:
         else:
             print(f"Message failed with error: {responseData['messages'][0]['error-text']}")
         print('sent bull market notification')
+    else:
+        print('No bear or bull Market')
+    
+    print('Done for the day', str(datetime.now()))
+    # wait 24 hours
+    time.sleep(86400)
