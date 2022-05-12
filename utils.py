@@ -38,7 +38,7 @@ def bear_market():
     btc_change_7days = data['data'][0]['quote']['USD']['percent_change_7d']
     eth_change_7days = data['data'][1]['quote']['USD']['percent_change_24h']
     eth_change_24_hr = data['data'][1]['quote']['USD']['percent_change_7d']
-    return (btc_change_24_hr <= -10 or eth_change_24_hr <= -10) or (btc_change_7days <= -20 or eth_change_7days <= -20)
+    return (btc_change_24_hr <= -10 or eth_change_24_hr <= -10)
 
 
 def bull_market():
@@ -48,7 +48,7 @@ def bull_market():
     btc_change_7days = data['data'][0]['quote']['USD']['percent_change_7d']
     eth_change_7days = data['data'][1]['quote']['USD']['percent_change_7d']
     eth_change_24_hr = data['data'][1]['quote']['USD']['percent_change_24h']
-    return (btc_change_24_hr >= 10 or eth_change_24_hr >= 10) or (btc_change_7days >= 20 or eth_change_7days >= 20)
+    return (btc_change_24_hr >= 10 or eth_change_24_hr >= 10)
 
 def get_apes_trend():
     apes_wisdom = 'https://apewisdom.io/api/v1.0/filter/all-crypto'
